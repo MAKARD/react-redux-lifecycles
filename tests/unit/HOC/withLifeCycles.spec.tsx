@@ -62,6 +62,8 @@ describe("withLifeCycles()", () => {
         });
 
         // Crutch. No idea how it's works
+        wrapper.find(ReactRedux.Provider).instance().forceUpdate();
+        expect(WrappedComponent.storeDidUpdateCalled).to.be.false;
         (wrapper.find(Connected).instance() as any).selector.shouldComponentUpdate = true;
         wrapper.find(ReactRedux.Provider).instance().forceUpdate();
 

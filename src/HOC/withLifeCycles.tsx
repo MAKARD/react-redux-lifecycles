@@ -20,11 +20,13 @@ export function withLifeCycles(ConnectedComponent: typeof React.Component & { [k
             this.initSelector();
         }
 
-        // TODO: Remove after refactor 'react-redux' 
+        // TODO: Remove after refactor 'react-redux'
         public componentWillReceiveProps(P, S) {
             super.componentWillReceiveProps(this.props, S);
 
-            this.selector.shouldComponentUpdate && storeDidUpdate(this.store.getState(), this.wrappedComponentPrototype);
+            if (this.selector.shouldComponentUpdate) {
+                storeDidUpdate(this.store.getState(), this.wrappedComponentPrototype);
+            }
         }
 
         public get wrappedComponentPrototype() {

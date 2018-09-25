@@ -44,6 +44,8 @@
     "no-default-export": true,
     "no-duplicate-imports": true,
     "prefer-const": true,
+    "space-before-function-paren": false,
+    "only-arrow-functions": false,
     "trailing-comma": [
       true,
       {
