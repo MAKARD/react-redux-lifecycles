@@ -1,26 +1,24 @@
 import * as React from "react";
 import * as Redux from "redux";
-import * as ReactRedux from "react-redux";
 
 import { warning } from "../utils/warning";
 import { storeDidUpdate, storeDidCatch } from "../methods";
 
-// storeDidUpdate
-// storeDidThrow
+const lifeCycleMethods = ["storeDidUpdate", "storeDidThrow"];
 
-const lifeCycleMethods = ["storeWillUpdate", "storeDidUpdate", "storeDidThrow"];
-
-export function withLifeCycles<C extends React.ComponentClass, P = {}>(ConnectedComponent: ReactRedux.ConnectedComponentClass<C, P>) {
-    return class extends ConnectedComponent {
-        public wrappedInstance?: C & {
+export function withLifeCycles(ConnectedComponent: typeof React.Component & { [key: string]: any }): any {
+    return class LifeCycledComponent extends ConnectedComponent {
+        public test: keyof typeof ConnectedComponent;
+        public wrappedInstance?: {
             storeDidUpdate?: <S = any>(storeState: S) => void;
+            storeDidCatch?: <S = any> (error: S) => void;
         }
         public store: Redux.Store;
         public selector: {
             shouldComponentUpdate: boolean;
-            run: (props: P) => void;
+            run: (props: any) => void;
             error?: any;
-            props: P;
+            props: any;
         }
 
         public componentDidMount() {

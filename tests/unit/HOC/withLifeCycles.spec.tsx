@@ -25,7 +25,7 @@ const createStore = () => Redux.createStore((state = {}, action: any) => {
 });
 
 describe("withLifeCycles()", () => {
-    let Connected: ReactRedux.ConnectedComponentClass<{}, {}>;
+    let Connected: React.ComponentClass;
     let wrapper: ReactWrapper<{}, {}>;
 
     let store: Redux.Store;
