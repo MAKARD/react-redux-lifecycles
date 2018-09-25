@@ -7,6 +7,10 @@ storeDidUpdate(storeState: YourStoreStateInterface): void {}
 storeDidCatch(error: YourErrorInterface): void {}
 ```
 
+### Issues
+
+- Errors intercept by `redux-saga` middleware on resolving effects.
+
 ### Install
 
 Via npm
