@@ -1,2 +1,2 @@
 export * from "./storeDidUpdate";
-export * from "./storeDidCatch";
+export * from "./storeDidThrow";

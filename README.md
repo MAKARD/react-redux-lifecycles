@@ -19,21 +19,21 @@ npm install --save react-redux-lifecycles
 
 As decorator:
 
-```tsx
+```jsx
 import * as React from "react";
 
 import { connect } from "react-redux";
 import { withLifeCycles } from "react-redux-lifecycles";
 
 @withLifeCycles
-@connect(mapStateToProps, mapDispatchToProps, mergeProps, { withRef: true })
+@connect(mapStateToProps, mapDispatchToProps)
 export class Component extends React.Component {
 
-    public storeDidUpdate(newStoreState) {
+    storeDidUpdate(newStoreState) {
         // ...
     }
 
-    public storeDidCatch(error) {
+    storeDidCatch(error) {
         // ...
     }
 }
@@ -41,7 +41,7 @@ export class Component extends React.Component {
 
 As HOC:
 
-```tsx
+```jsx
 import * as React from "react";
 
 import { connect } from "react-redux";
@@ -49,19 +49,17 @@ import { withLifeCycles } from "react-redux-lifecycles";
 
 class Component extends React.Component {
 
-    public storeDidUpdate(newStoreState) {
+    storeDidUpdate(newStoreState) {
         // ...
     }
 
-    public storeDidCatch(error) {
+    storeDidCatch(error) {
         // ...
     }
 }
 
-export default withLifeCycles(connect(mapStateToProps, mapDispatchToProps, mergeProps, { withRef: true })(Component));
+export default withLifeCycles(connect(mapStateToProps, mapDispatchToProps)(Component));
 ```
 
 
 *Note: withLifeCycles apply as argument only connected component*
-
-*Note: You must pass `withRef: true` to options argument for connect function*

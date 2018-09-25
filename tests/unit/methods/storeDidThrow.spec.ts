@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import * as Redux from "redux";
 
-import { storeDidCatch } from "../../../src/methods";
+import { storeDidThrow } from "../../../src/methods";
 
 const createStore = () => Redux.createStore((state = {}, action: any) => {
     switch (action.type) {
@@ -14,7 +14,7 @@ const createStore = () => Redux.createStore((state = {}, action: any) => {
     }
 });
 
-describe("storeDidCatch()", () => {
+describe("storeDidThrow()", () => {
     let store: Redux.Store;
 
     beforeEach(() => {
@@ -25,20 +25,20 @@ describe("storeDidCatch()", () => {
         store = undefined;
     });
 
-    it("Should do nothing when instance or instance.storeDidCatch is undefined", () => {
-        storeDidCatch(store);
+    it("Should do nothing when instance or instance.storeDidThrow is undefined", () => {
+        storeDidThrow(store);
 
         expect(() => store.dispatch({ type: "error" })).to.throw("test error");
 
-        storeDidCatch(store, {});
+        storeDidThrow(store, {});
 
         expect(() => store.dispatch({ type: "error" })).to.throw("test error");
     });
 
-    it("Should throw invariant when instance.storeDidCatch is not a function", () => {
+    it("Should throw invariant when instance.storeDidThrow is not a function", () => {
         let error = false;
         try {
-            storeDidCatch(store, { storeDidCatch: {} } as any)
+            storeDidThrow(store, { storeDidThrow: {} } as any)
         } catch (e) {
             error = true;
         }

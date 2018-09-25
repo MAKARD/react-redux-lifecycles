@@ -73,25 +73,6 @@ describe("withLifeCycles()", () => {
             type: "error"
         });
 
-        expect(WrappedComponent.storeDidCatchCalled).to.be.true;
-    });
-
-    it("Should create warning when lifecycles initialized without passign 'withRef: true' argument", () => {
-        Connected = withLifeCycles(ReactRedux.connect()(WrappedComponent));
-
-        const consoleOrigin = console;
-        let notified = false;
-        global["console"] = {
-            error: () => notified = true
-        } as any;
-
-        mount(
-            <ReactRedux.Provider store={store}>
-                <Connected />
-            </ReactRedux.Provider>
-        );
-
-        global["console"] = consoleOrigin;
-        expect(notified).to.be.true;
+        expect(WrappedComponent.storeDidThrowCalled).to.be.true;
     });
 });

@@ -1,57 +1,34 @@
 import * as React from "react";
 import * as Redux from "redux";
 
-import { warning } from "../utils/warning";
-import { storeDidUpdate, storeDidCatch } from "../methods";
-
-const lifeCycleMethods = ["storeDidUpdate", "storeDidThrow"];
+import { storeDidUpdate, storeDidThrow } from "../methods";
 
 export function withLifeCycles(ConnectedComponent: typeof React.Component & { [key: string]: any }): any {
     return class LifeCycledComponent extends ConnectedComponent {
-        public test: keyof typeof ConnectedComponent;
-        public wrappedInstance?: {
-            storeDidUpdate?: <S = any>(storeState: S) => void;
-            storeDidCatch?: <S = any> (error: S) => void;
-        }
+        public initSelector: () => void;
         public store: Redux.Store;
         public selector: {
             shouldComponentUpdate: boolean;
-            run: (props: any) => void;
-            error?: any;
-            props: any;
+        };
+
+        constructor(props, context) {
+            super(props, context);
+
+            storeDidThrow(this.store, this.wrappedComponentPrototype);
+
+            // Re-init selector with new dispatch
+            this.initSelector();
         }
 
-        public componentDidMount() {
-            super.componentDidMount();
-
-            this.checkMethods();
-
-            storeDidCatch(this.store, this.wrappedInstance);
-        }
-
+        // TODO: Remove after refactor 'react-redux' 
         public componentWillReceiveProps(P, S) {
-            super.componentWillReceiveProps(P, S);
+            super.componentWillReceiveProps(this.props, S);
 
-            this.selector.shouldComponentUpdate && storeDidUpdate(this.store.getState(), this.wrappedInstance);
+            this.selector.shouldComponentUpdate && storeDidUpdate(this.store.getState(), this.wrappedComponentPrototype);
         }
 
         public get wrappedComponentPrototype() {
             return ConnectedComponent.WrappedComponent.prototype;
-        }
-
-        public checkMethods = () => {
-            const methods = lifeCycleMethods.reduce((usedMethods, availableMethod) => {
-                this.wrappedComponentPrototype[availableMethod] && usedMethods.push(availableMethod);
-
-                return usedMethods;
-            }, []);
-
-            if (methods.length && !this.wrappedInstance) {
-                methods.forEach((name) => warning(
-                    `To use ${name} callback, you need to specify ` +
-                    `{ withRef: true } in the options argument of the connect() call.`
-                ));
-            }
         }
     }
 }
