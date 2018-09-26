@@ -46,10 +46,6 @@ describe("withLifeCycles()", () => {
         wrapper.unmount();
     });
 
-    it("Should correctly render", () => {
-        expect(wrapper.getDOMNode().innerHTML).to.equals("WrappedComponent");
-    });
-
     it("Should call 'storeDidUpdate' when store receive new state", () => {
         store.dispatch({
             type: "any",
@@ -57,12 +53,6 @@ describe("withLifeCycles()", () => {
                 test: true
             }
         });
-
-        // Crutch. No idea how it's works
-        wrapper.find(ReactRedux.Provider).instance().forceUpdate();
-        expect(WrappedComponent.storeDidUpdateCalled).to.be.false;
-        (wrapper.find(Connected).instance() as any).selector.shouldComponentUpdate = true;
-        wrapper.find(ReactRedux.Provider).instance().forceUpdate();
 
         expect(WrappedComponent.storeDidUpdateCalled).to.be.true;
     });

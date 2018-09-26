@@ -1,26 +1,26 @@
 import * as React from "react";
-import * as Redux from "redux";
 
 import { storeDidUpdate } from "../methods";
 
 export function withLifeCycles(ConnectedComponent: typeof React.Component & { [key: string]: any }): any {
-    return class LifeCycledComponent extends ConnectedComponent {
-        public wrappedInstance: {
-            storeDidUpdate?: (state: any) => void;
-        };
-        public store: Redux.Store;
-        public selector: {
-            run: any;
-            shouldComponentUpdate: boolean;
-        };
+    const componentDidMountOrigin = ConnectedComponent.prototype.componentDidMount;
+    const componentWillUnmountOrigin = ConnectedComponent.prototype.componentWillUnmount;
 
-        // TODO: Remove after refactor 'react-redux'
-        public componentWillReceiveProps(P, S) {
-            super.componentWillReceiveProps(this.props, S);
+    let unsubscribe;
 
-            if (this.selector.shouldComponentUpdate) {
-                storeDidUpdate(this.store, this.wrappedInstance, ConnectedComponent.WrappedComponent.prototype);
-            }
-        }
+    ConnectedComponent.prototype.componentDidMount = function () {
+        componentDidMountOrigin && componentDidMountOrigin.call(this);
+
+        unsubscribe = this.store.subscribe(() => {
+            storeDidUpdate(this.store.getState(), this.wrappedInstance, ConnectedComponent.WrappedComponent.prototype);
+        });
     }
+
+    ConnectedComponent.prototype.componentWillUnmount = function () {
+        unsubscribe();
+
+        componentWillUnmountOrigin && componentWillUnmountOrigin.call(this);
+    }
+
+    return ConnectedComponent;
 }

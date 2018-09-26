@@ -1,4 +1,4 @@
-let invariant = require("invariant");
+const invariant = require("invariant");
 
 export function storeDidUpdate<S = any>(
     storeState: S,
