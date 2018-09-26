@@ -53,13 +53,13 @@ export default withLifeCycles()(connect(mapStateToProps, mapDispatchToProps, mer
 
 ##### storeDidUpdate
 
-Will called after store receive new state (reducer has been executed).
+Will called after store received new state (reducer has been executed).
 
 To get access to `storeDidUpdate` method just use `withLifeCycles()` method without any arguments.
 
 ##### storeDidUpdateState
 
-Will called after store receive new specific state (reducer has been executed).
+Will called after store received new specific state (reducer has been executed).
 
 To get access to `storeDidUpdateState` method just use `withLifeCycles()` with `array of strings` as argument.
 For example:
@@ -92,7 +92,7 @@ export class Component extends React.Component {
     }
 
     storeDidUpdate(currentState) {
-        // Always executing after store receive new state
+        // Always executing after store received new state
     }
 }
 ```
