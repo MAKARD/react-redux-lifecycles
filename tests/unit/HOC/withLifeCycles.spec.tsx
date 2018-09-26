@@ -30,7 +30,7 @@ describe("withLifeCycles()", () => {
     beforeEach(() => {
         store = createStore();
 
-        Connected = withLifeCycles(
+        Connected = withLifeCycles()(
             ReactRedux.connect((state) => state, undefined, undefined, { withRef: true }
             )(WrappedComponent));
         wrapper = mount(
@@ -55,5 +55,34 @@ describe("withLifeCycles()", () => {
         });
 
         expect(WrappedComponent.storeDidUpdateCalled).to.be.true;
+    });
+
+    it("Should call 'storeDidUpdateState' when store receive new specific state", () => {
+        store.dispatch({
+            type: "any",
+            data: {
+                test: true
+            }
+        });
+        wrapper.unmount();
+
+        Connected = withLifeCycles(["test"])(
+            ReactRedux.connect((state) => state, undefined, undefined, { withRef: true }
+            )(WrappedComponent));
+        wrapper = mount(
+            <ReactRedux.Provider store={store}>
+                <Connected />
+            </ReactRedux.Provider>
+        );
+
+        store.dispatch({
+            type: "any",
+            data: {
+                test: false
+            }
+        });
+
+        expect(WrappedComponent.storeDidUpdateStateCalled).to.be.true;
+
     });
 });

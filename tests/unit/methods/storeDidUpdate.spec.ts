@@ -3,30 +3,31 @@ import { expect } from "chai";
 import { storeDidUpdate } from "../../../src/methods";
 
 describe("storeDidUpdate()", () => {
-    it("Should do nothing when instance or instance.storeDidUpdate is undefined", () => {
-        expect(storeDidUpdate({}, undefined, {})).to.not.throw;
-        expect(storeDidUpdate({}, {}, {})).to.not.throw;
-    });
-
-    it("Should throw invariant when instance is undefined", () => {
-        let error = false;
-        try {
-            storeDidUpdate({}, undefined, { storeDidUpdate: true } as any)
-        } catch (e) {
-            error = true;
+    it("Should call storeDidUpdate if method valid", () => {
+        let called = false;
+        const instance = {
+            storeDidUpdate: () => {
+                called = true;
+            }
         }
 
-        expect(error).to.be.true;
+        storeDidUpdate({}, instance, instance);
+
+        expect(called).to.be.true;
     });
 
-    it("Should throw invariant when instance.storeDidUpdate is not a function", () => {
-        let error = false;
-        try {
-            storeDidUpdate({}, { storeDidUpdate: {} } as any, {})
-        } catch (e) {
-            error = true;
+    it("Should not call storeDidUpdate if method not valid", () => {
+        let called = false;
+        const instance = {
+            storeDidUpdate: () => {
+                called = true;
+            }
         }
 
-        expect(error).to.be.true;
+        storeDidUpdate({}, {}, instance);
+
+        expect(called).to.be.false;
+        instance.storeDidUpdate();
+        expect(called).to.be.true;
     });
 });
