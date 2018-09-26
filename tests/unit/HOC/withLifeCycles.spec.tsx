@@ -15,9 +15,6 @@ const createStore = () => Redux.createStore((state = {}, action: any) => {
                 ...action.data
             };
         }
-        case "error": {
-            throw new Error("test error");
-        }
         default: {
             return state;
         }
@@ -68,19 +65,5 @@ describe("withLifeCycles()", () => {
         wrapper.find(ReactRedux.Provider).instance().forceUpdate();
 
         expect(WrappedComponent.storeDidUpdateCalled).to.be.true;
-    });
-
-    it("Should call 'storeDidThrow' when store throw error", () => {
-        store.dispatch({
-            type: "error"
-        });
-
-        expect(WrappedComponent.storeDidThrowCalled).to.be.true;
-    });
-
-    it("Should call 'storeDidReplaceReducer' when store replace reducer", () => {
-        store.replaceReducer(() => ({}));
-
-        expect(WrappedComponent.storeDidReplaceReducerCalled).to.be.true;
     });
 });

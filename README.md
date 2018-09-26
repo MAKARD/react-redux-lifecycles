@@ -4,13 +4,7 @@ Store lifeCycle callbacks (will be extended in future):
 
 ```ts
 storeDidUpdate(storeState: YourStoreStateInterface): void {}
-storeDidCatch(error: YourErrorInterface): void {}
-storeDidReplaceReducer(): void {}
 ```
-
-### Known issues
-
-- Errors intercept by `redux-saga` middleware on resolving effects. So `storeDidCatch` does not called.
 
 ### Install
 
@@ -31,18 +25,9 @@ import { connect } from "react-redux";
 import { withLifeCycles } from "react-redux-lifecycles";
 
 @withLifeCycles
-@connect(mapStateToProps, mapDispatchToProps)
+@connect(mapStateToProps, mapDispatchToProps, mergeOptions, { withRef: true })
 export class Component extends React.Component {
-
     storeDidUpdate(newStoreState) {
-        // ...
-    }
-
-    storeDidCatch(error) {
-        // ...
-    }
-
-    storeDidReplaceReducer() {
         // ...
     }
 }
@@ -57,22 +42,15 @@ import { connect } from "react-redux";
 import { withLifeCycles } from "react-redux-lifecycles";
 
 class Component extends React.Component {
-
     storeDidUpdate(newStoreState) {
-        // ...
-    }
-
-    storeDidCatch(error) {
-        // ...
-    }
-
-    storeDidReplaceReducer() {
         // ...
     }
 }
 
-export default withLifeCycles(connect(mapStateToProps, mapDispatchToProps)(Component));
+export default withLifeCycles(connect(mapStateToProps, mapDispatchToProps, mergeOptions, { withRef: true })(Component));
 ```
 
 
 *Note: withLifeCycles apply as argument only connected component*
+
+*Note: You must pass `{ withRef: true }` argument to connect method*
