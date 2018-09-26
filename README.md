@@ -5,11 +5,12 @@ Store lifeCycle callbacks (will be extended in future):
 ```ts
 storeDidUpdate(storeState: YourStoreStateInterface): void {}
 storeDidCatch(error: YourErrorInterface): void {}
+storeDidReplaceReducer(): void {}
 ```
 
-### Issues
+### Known issues
 
-- Errors intercept by `redux-saga` middleware on resolving effects.
+- Errors intercept by `redux-saga` middleware on resolving effects. So `storeDidCatch` does not called.
 
 ### Install
 
@@ -40,6 +41,10 @@ export class Component extends React.Component {
     storeDidCatch(error) {
         // ...
     }
+
+    storeDidReplaceReducer() {
+        // ...
+    }
 }
 ```
 
@@ -58,6 +63,10 @@ class Component extends React.Component {
     }
 
     storeDidCatch(error) {
+        // ...
+    }
+
+    storeDidReplaceReducer() {
         // ...
     }
 }

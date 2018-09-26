@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as Redux from "redux";
 
-import { storeDidUpdate, storeDidThrow } from "../methods";
+import { storeDidUpdate, storeDidThrow, storeDidReplaceReducer } from "../methods";
 
 export function withLifeCycles(ConnectedComponent: typeof React.Component & { [key: string]: any }): any {
     return class LifeCycledComponent extends ConnectedComponent {
@@ -14,7 +14,8 @@ export function withLifeCycles(ConnectedComponent: typeof React.Component & { [k
         constructor(props, context) {
             super(props, context);
 
-            storeDidThrow(this.store, this.wrappedComponentPrototype);
+            storeDidThrow(this.store, this.wrappedComponentPrototype)
+            storeDidReplaceReducer(this.store, this.wrappedComponentPrototype)
 
             // Re-init selector with new dispatch
             this.initSelector();

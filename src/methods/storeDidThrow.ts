@@ -24,4 +24,5 @@ export function storeDidThrow<S = any>(store: Redux.Store<S>, instance?: { store
         }
         return result;
     }
+
 }

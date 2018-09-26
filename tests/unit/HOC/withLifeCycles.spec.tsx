@@ -77,4 +77,10 @@ describe("withLifeCycles()", () => {
 
         expect(WrappedComponent.storeDidThrowCalled).to.be.true;
     });
+
+    it("Should call 'storeDidReplaceReducer' when store replace reducer", () => {
+        store.replaceReducer(() => ({}));
+
+        expect(WrappedComponent.storeDidReplaceReducerCalled).to.be.true;
+    });
 });

@@ -1,6 +1,7 @@
 import * as React from "react";
 
 export class WrappedComponent extends React.Component {
+    public static storeDidReplaceReducerCalled = false;
     public static storeDidUpdateCalled = false;
     public static storeDidThrowCalled = false;
 
@@ -12,7 +13,12 @@ export class WrappedComponent extends React.Component {
         WrappedComponent.storeDidThrowCalled = true;
     }
 
+    public storeDidReplaceReducer() {
+        WrappedComponent.storeDidReplaceReducerCalled = true;
+    }
+
     public componentWillUnmount() {
+        WrappedComponent.storeDidReplaceReducerCalled = false;
         WrappedComponent.storeDidUpdateCalled = false;
         WrappedComponent.storeDidThrowCalled = false;
     }
