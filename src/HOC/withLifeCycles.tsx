@@ -17,7 +17,7 @@ export function withLifeCycles(ConnectedComponent: typeof React.Component & { [k
     }
 
     ConnectedComponent.prototype.componentWillUnmount = function () {
-        unsubscribe();
+        unsubscribe && unsubscribe();
 
         componentWillUnmountOrigin && componentWillUnmountOrigin.call(this);
     }
