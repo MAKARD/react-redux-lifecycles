@@ -1,8 +1,9 @@
 import * as React from "react";
 
 import { storeDidUpdate } from "../methods";
+import { storeDidUpdateState } from "../methods/storeDidUpdateState";
 
-export function withLifeCycles(ConnectedComponent: typeof React.Component & { [key: string]: any }): any {
+export const withLifeCycles = (selectors?: Array<string>) => (ConnectedComponent: typeof React.Component & { [key: string]: any }): any => {
     const componentDidMountOrigin = ConnectedComponent.prototype.componentDidMount;
     const componentWillUnmountOrigin = ConnectedComponent.prototype.componentWillUnmount;
 
@@ -11,8 +12,22 @@ export function withLifeCycles(ConnectedComponent: typeof React.Component & { [k
     ConnectedComponent.prototype.componentDidMount = function () {
         componentDidMountOrigin && componentDidMountOrigin.call(this);
 
+        let prevStoreState = this.store.getState();
+
         unsubscribe = this.store.subscribe(() => {
             storeDidUpdate(this.store.getState(), this.wrappedInstance, ConnectedComponent.WrappedComponent.prototype);
+
+            if (selectors && selectors.length) {
+                storeDidUpdateState(
+                    prevStoreState,
+                    this.store.getState(),
+                    selectors,
+                    this.wrappedInstance,
+                    ConnectedComponent.WrappedComponent.prototype
+                );
+            }
+
+            prevStoreState = this.store.getState();
         });
     }
 
