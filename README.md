@@ -4,7 +4,7 @@ Store lifeCycle callbacks (will be extended in future):
 
 ```ts
 storeDidUpdate(storeState: YourStoreStateInterface): void {}
-storeDidUpdateState(storeState: YourStoreStateInterface): void {}
+storeDidUpdateState(currentStoreState: YourStoreStateInterface, prevStoreState: YourStoreStateInterface): void {}
 ```
 
 ### Install
@@ -91,7 +91,7 @@ export class Component extends React.Component {
         **/
     }
 
-    storeDidUpdate(currentState) {
+    storeDidUpdate(currentStoreState, prevStoreState) {
         // Always executing after store received new state
     }
 }
