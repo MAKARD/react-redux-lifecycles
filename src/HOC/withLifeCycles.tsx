@@ -13,10 +13,14 @@ export const withLifeCycles = (selectors?: Array<string>) =>
             componentDidMountOrigin && componentDidMountOrigin.call(this);
 
             let prevStoreState = this.store.getState();
+            let currentStoreState = prevStoreState;
 
             unsubscribe = this.store.subscribe(() => {
+                prevStoreState = currentStoreState;
+                currentStoreState = this.store.getState();
+
                 storeDidUpdate(
-                    this.store.getState(),
+                    currentStoreState,
                     this.wrappedInstance,
                     ConnectedComponent.WrappedComponent.prototype
                 );
@@ -24,14 +28,12 @@ export const withLifeCycles = (selectors?: Array<string>) =>
                 if (selectors && selectors.length) {
                     storeDidUpdateState(
                         prevStoreState,
-                        this.store.getState(),
+                        currentStoreState,
                         selectors,
                         this.wrappedInstance,
                         ConnectedComponent.WrappedComponent.prototype
                     );
                 }
-
-                prevStoreState = this.store.getState();
             });
         }
 
