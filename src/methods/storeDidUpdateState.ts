@@ -4,11 +4,11 @@ const deepEqual = require("deep-equal");
 import { objectIterator } from "../utils/objectIterator";
 
 export function storeDidUpdateState<S = any>(
-    currentStoreState: S,
     prevStoreState: S,
+    currentStoreState: S,
     selectors: Array<string>,
-    instance?: { storeDidUpdateState?: (storeState: S) => void },
-    prototype?: { storeDidUpdateState?: (storeState: S) => void }
+    instance?: { storeDidUpdateState?: (currentStoreState: S, prevStoreState: S) => void },
+    prototype?: { storeDidUpdateState?: (currentStoreState: S, prevStoreState: S) => void }
 ) {
     if (!isMethodValid(instance, prototype, "storeDidUpdateState")) {
         return;
@@ -17,5 +17,5 @@ export function storeDidUpdateState<S = any>(
     selectors.some((path) => !deepEqual(
         objectIterator(path, prevStoreState),
         objectIterator(path, currentStoreState)
-    )) && instance.storeDidUpdateState(currentStoreState);
+    )) && instance.storeDidUpdateState(currentStoreState, prevStoreState);
 }
