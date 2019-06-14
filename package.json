@@ -1,6 +1,6 @@
 {
   "name": "react-redux-lifecycles",
-  "version": "1.0.1-4",
+  "version": "1.0.2",
   "description": "Store lifecycles methods for connected component",
   "main": "build/index.js",
   "typings": "build/src/index.d.ts",
@@ -22,7 +22,7 @@
     "typescript"
   ],
   "author": "Makarenko Dmitry",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/MAKARD/react-redux-lifecycles"
   },
@@ -56,8 +56,8 @@
     "enzyme-adapter-react-16": "^1.0.0",
     "jsdom": "11.1.0",
     "jsdom-global": "3.0.2",
-    "mocha": "^6.0.0",
-    "nyc": "^13.3.0",
+    "mocha": "^6.1.4",
+    "nyc": "^14.1.1",
     "pre-commit": "^1.2.2",
     "prop-types": "^15.6.2",
     "react": "^16.5.2",
