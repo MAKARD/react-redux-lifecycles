@@ -1,5 +1,8 @@
 # React Redux LifeCycles
 
+[![Build Status](https://api.travis-ci.org/MAKARD/react-redux-lifecycles.svg?branch=master)](https://travis-ci.org/MAKARD/react-redux-lifecycles)
+[![codecov](https://codecov.io/gh/MAKARD/react-redux-lifecycles/branch/master/graph/badge.svg)](https://codecov.io/gh/MAKARD/react-redux-lifecycles)
+
 Store lifeCycle callbacks (will be extended in future):
 
 ```ts
