@@ -1,14 +1,12 @@
 // tslint:disable
-const
-    path = require('path'),
-    webpack = require('webpack');
+const path = require("path");
+const webpack = require("webpack");
 
-const
-    CleanWebpackPlugin = require('clean-webpack-plugin'),
-    nodeExternals = require("webpack-node-externals");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const nodeExternals = require("webpack-node-externals");
 
-const debug = process.env.NODE_ENV !== 'production';
-const env = debug ? 'local' : 'production';
+const debug = process.env.NODE_ENV !== "production";
+const env = debug ? "local" : "production";
 
 console.log("Building in " + env + " environment. Debug: " + debug.toString());
 
@@ -18,8 +16,8 @@ const config = {
         externals: [nodeExternals()],
 
         output: {
-            filename: 'index.js',
-            path: path.resolve('./build'),
+            filename: "index.js",
+            path: path.resolve("./build"),
             publicPath: "/",
             library: "react-redux-lifecycles",
             libraryTarget: "umd",
@@ -30,8 +28,8 @@ const config = {
         resolve: {
             extensions: [".ts", ".js", ".json", ".jsx", ".tsx",],
             modules: [
-                path.resolve('node_modules'),
-                path.resolve('src'),
+                path.resolve("node_modules"),
+                path.resolve("src"),
             ],
         },
 
@@ -44,14 +42,14 @@ const config = {
                             loader: "babel-loader",
                             query: {
                                 presets: [
-                                    'react',
-                                    ['env', {
+                                    "react",
+                                    ["env", {
                                         "targets": {
                                             "browsers": ["last 2 versions", "safari >= 10", "ie >= 11"]
                                         }
                                     }]
                                 ],
-                                "plugins": ["transform-object-rest-spread"]
+                                plugins: ["transform-object-rest-spread"]
                             }
                         },
                         "awesome-typescript-loader"
@@ -65,14 +63,14 @@ const config = {
                         "babel-loader",
                     query: {
                         presets: [
-                            'react',
-                            ['env', {
+                            "react",
+                            ["env", {
                                 "targets": {
                                     "browsers": ["last 2 versions", "safari >= 10", "ie >= 11"]
                                 }
                             }]
                         ],
-                        "plugins": ["transform-object-rest-spread"]
+                        plugins: ["transform-object-rest-spread"]
                     }
                 },
                 {
@@ -85,12 +83,12 @@ const config = {
 
         plugins: [
             new webpack.NamedModulesPlugin(),
-            new CleanWebpackPlugin(path.resolve('./build')),
+            new CleanWebpackPlugin(),
             new webpack.optimize.ModuleConcatenationPlugin(),
             new webpack.NodeEnvironmentPlugin(),
             new webpack.DefinePlugin({
-                'process.env': {
-                    'NODE_ENV': JSON.stringify(env)
+                "process.env": {
+                    "NODE_ENV": JSON.stringify(env)
                 }
             })
         ]
